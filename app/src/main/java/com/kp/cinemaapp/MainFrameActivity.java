@@ -148,7 +148,7 @@ public class MainFrameActivity extends AppCompatActivity {
         listCinema = new ArrayList<Cinema>();
         cinemaAdapter = new CinemaListAdapter(MainFrameActivity.this, listCinema);
         listViewCinema.setAdapter(cinemaAdapter);
-        listViewCinema.setClickable(true);
+        listViewCinema.setSelector(android.R.color.transparent);//Не кликабельный
 
         //Refresh Layout
         mainRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.mainRefreshLayout);
@@ -267,6 +267,7 @@ public class MainFrameActivity extends AppCompatActivity {
         CLAuthToReg.setVisibility(View.VISIBLE);
         CLAuth.setVisibility(View.GONE);
         CLReg.setVisibility(View.GONE);
+        clearFields();
     }
 
     public void toAuthOnClick(View view){
@@ -279,6 +280,14 @@ public class MainFrameActivity extends AppCompatActivity {
         CLAuthToReg.setVisibility(View.GONE);
         CLAuth.setVisibility(View.GONE);
         CLReg.setVisibility(View.VISIBLE);
+    }
+
+    public void clearFields(){
+        textEmail.setText("");
+        textPassword.setText("");;
+        textEmailReg.setText("");;
+        textPasswordReg.setText("");;
+        textPasswordReg2.setText("");;
     }
 
     public void showPassOnClick(View view){
@@ -326,6 +335,7 @@ public class MainFrameActivity extends AppCompatActivity {
 
                         //Переход на новое окно при успешной авторизации
                         cinemasRefreshLayout.setRefreshing(false);
+                        clearFields();
                         updateProfile();
                     }
                 }
@@ -378,6 +388,7 @@ public class MainFrameActivity extends AppCompatActivity {
                                                     //Переход на новое окно при успешной регистрации
                                                     cinemasRefreshLayout.setRefreshing(false);
                                                     updateProfile();
+                                                    clearFields();
                                                 }
                                             }
                                         });
