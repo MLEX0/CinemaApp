@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "467666235143",
+    "firebase_url": "https://cinemaapp-80774-default-rtdb.firebaseio.com",
+    "project_id": "cinemaapp-80774",
+    "storage_bucket": "cinemaapp-80774.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467666235143:android:c1038636dac42d1ebc9fa2",
+        "android_client_info": {
+          "package_name": "com.kp.cinemaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467666235143-ogr27hqdik84ffiotdvju7nuh30k460n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDurmsLubfcKu0oVeFBsoXtVQcVSdtEqQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467666235143-ogr27hqdik84ffiotdvju7nuh30k460n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

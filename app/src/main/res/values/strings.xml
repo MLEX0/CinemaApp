@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Cinema Wibe</string>
+    <string name="main">Главная</string>
+    <string name="cinemas">Кинотеатры</string>
+    <string name="tickets">Билеты</string>
+    <string name="profile">Профиль</string>
+</resources>
