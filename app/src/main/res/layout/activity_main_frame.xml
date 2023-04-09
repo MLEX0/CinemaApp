@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/mainRefreshLayout"
@@ -51,7 +51,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/cinemasRefreshLayout"
@@ -66,6 +67,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <TextView
+                        android:id="@+id/textViewCinemasTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:fontFamily="@font/corporateacondpro_rregular"
+                        android:text="Кинотеатры"
+                        android:textColor="#FFFFFF"
+                        android:textColorHighlight="#FFFFFF"
+                        android:textColorHint="#FFFFFF"
+                        android:textColorLink="#FFFFFF"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ListView
+                        android:id="@+id/listViewCinema"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewCinemasTitle" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -108,7 +134,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/profileRefreshLayout"
@@ -123,6 +149,496 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/unauthorizedProfileConstraintLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="gone">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/clAuthOrReg"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="visible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:visibility="visible">
+
+                            <ImageView
+                                android:id="@+id/ivNotAuthorized"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="40dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/notautharized" />
+
+                            <TextView
+                                android:id="@+id/textViewYouAreNotAuth"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10sp"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:text="Вы не авторизованы"
+                                android:textColor="#FFFFFF"
+                                android:textColorHighlight="#FFFFFF"
+                                android:textColorHint="#FFFFFF"
+                                android:textColorLink="#FFFFFF"
+                                android:textSize="18sp"
+                                app:autoSizeMinTextSize="22sp"
+                                app:layout_constraintEnd_toEndOf="@+id/ivNotAuthorized"
+                                app:layout_constraintStart_toStartOf="@+id/ivNotAuthorized"
+                                app:layout_constraintTop_toTopOf="@+id/ivNotAuthorized" />
+
+                            <TextView
+                                android:id="@+id/textViewAuthOrReg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10sp"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:text="Войдите или зарегистрируйтесь"
+                                android:textColor="#ABFFFFFF"
+                                android:textColorHighlight="#ABFFFFFF"
+                                android:textColorHint="#ABFFFFFF"
+                                android:textColorLink="#ABFFFFFF"
+                                android:textSize="17sp"
+                                app:layout_constraintEnd_toEndOf="@+id/ivNotAuthorized"
+                                app:layout_constraintStart_toStartOf="@+id/ivNotAuthorized"
+                                app:layout_constraintTop_toBottomOf="@+id/textViewYouAreNotAuth" />
+
+                            <ImageView
+                                android:id="@+id/imageViewButton_toRegistration"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:onClick="toRegOnClick"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textViewOr"
+                                app:srcCompat="@drawable/button_registration_toreg" />
+
+                            <TextView
+                                android:id="@+id/TextViewToRegistration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:text="Регистрация"
+                                android:textColor="#697BEA"
+                                android:textColorHighlight="#697BEA"
+                                android:textColorHint="#697BEA"
+                                android:textColorLink="#697BEA"
+                                android:textSize="18sp"
+                                app:autoSizeMinTextSize="22sp"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageViewButton_toRegistration"
+                                app:layout_constraintEnd_toEndOf="@+id/imageViewButton_toRegistration"
+                                app:layout_constraintStart_toStartOf="@+id/imageViewButton_toRegistration"
+                                app:layout_constraintTop_toTopOf="@+id/imageViewButton_toRegistration" />
+
+                            <ImageView
+                                android:id="@+id/imageViewAva"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                app:layout_constraintEnd_toEndOf="@+id/ivNotAuthorized"
+                                app:layout_constraintStart_toStartOf="@+id/ivNotAuthorized"
+                                app:layout_constraintTop_toBottomOf="@+id/textViewAuthOrReg"
+                                app:srcCompat="@drawable/ava" />
+
+                            <ImageView
+                                android:id="@+id/imageViewButton_toAuth"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20sp"
+                                android:onClick="toAuthOnClick"
+                                app:layout_constraintEnd_toEndOf="@+id/ivNotAuthorized"
+                                app:layout_constraintStart_toStartOf="@+id/ivNotAuthorized"
+                                app:layout_constraintTop_toBottomOf="@+id/imageViewAva"
+                                app:srcCompat="@drawable/button_auth_toauth" />
+
+                            <TextView
+                                android:id="@+id/textViewToRegistration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:text="Войти"
+                                android:textColor="#FFFFFF"
+                                android:textColorHighlight="#FFFFFF"
+                                android:textColorHint="#FFFFFF"
+                                android:textColorLink="#FFFFFF"
+                                android:textSize="18sp"
+                                app:autoSizeMinTextSize="22sp"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageViewButton_toAuth"
+                                app:layout_constraintEnd_toEndOf="@+id/imageViewButton_toAuth"
+                                app:layout_constraintStart_toStartOf="@+id/imageViewButton_toAuth"
+                                app:layout_constraintTop_toTopOf="@+id/imageViewButton_toAuth" />
+
+                            <TextView
+                                android:id="@+id/textViewOr"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20sp"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:text="Или"
+                                android:textColor="#FFFFFF"
+                                android:textColorHighlight="#FFFFFF"
+                                android:textColorHint="#FFFFFF"
+                                android:textColorLink="#FFFFFF"
+                                android:textSize="18sp"
+                                app:autoSizeMinTextSize="22sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/ivNotAuthorized" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/clAuth"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:visibility="gone">
+
+                            <ImageView
+                                android:id="@+id/imageViewToRegistration2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:onClick="toRegOnClick"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/imageViewAuth"
+                                app:srcCompat="@drawable/button_two" />
+
+                            <TextView
+                                android:id="@+id/textViewToRegistration3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:text="Регистрация"
+                                android:textColor="#FFFFFF"
+                                android:textColorHighlight="#FFFFFF"
+                                android:textColorHint="#FFFFFF"
+                                android:textColorLink="#FFFFFF"
+                                android:textSize="18sp"
+                                app:autoSizeMinTextSize="22sp"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageViewToRegistration2"
+                                app:layout_constraintEnd_toEndOf="@+id/imageViewToRegistration2"
+                                app:layout_constraintStart_toStartOf="@+id/imageViewToRegistration2"
+                                app:layout_constraintTop_toTopOf="@+id/imageViewToRegistration2" />
+
+                            <TextView
+                                android:id="@+id/textViewEnter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="60dp"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:text="Войти"
+                                android:textColor="#FFFFFF"
+                                android:textColorHighlight="#FFFFFF"
+                                android:textColorHint="#FFFFFF"
+                                android:textColorLink="#FFFFFF"
+                                android:textSize="32sp"
+                                app:autoSizeMinTextSize="22sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.51"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/imageViewEnterLogin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textViewEnter"
+                                app:srcCompat="@drawable/enter_field" />
+
+                            <ImageView
+                                android:id="@+id/imageViewEnterPassword"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/imageViewEnterLogin"
+                                app:srcCompat="@drawable/enter_field" />
+
+                            <ImageView
+                                android:id="@+id/imageViewEnterPasswordEye_close"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="showPassOnClick"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageViewEnterPassword"
+                                app:layout_constraintEnd_toEndOf="@+id/imageViewEnterPassword"
+                                app:layout_constraintStart_toEndOf="@+id/editTextTextPassword"
+                                app:layout_constraintTop_toTopOf="@+id/imageViewEnterPassword"
+                                app:srcCompat="@drawable/eye_close" />
+
+                            <ImageView
+                                android:id="@+id/imageViewEnterPasswordEye_open"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="hidePassOnClick"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageViewEnterPassword"
+                                app:layout_constraintEnd_toEndOf="@+id/imageViewEnterPassword"
+                                app:layout_constraintStart_toEndOf="@+id/editTextTextPassword"
+                                app:layout_constraintTop_toTopOf="@+id/imageViewEnterPassword"
+                                app:srcCompat="@drawable/eye_open" />
+
+                            <EditText
+                                android:id="@+id/editTextTextPassword"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="50dp"
+                                android:background="@null"
+                                android:ems="10"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:hint="Пароль"
+                                android:inputType="textPassword"
+                                android:textColor="@color/white"
+                                android:textColorHighlight="@color/white"
+                                android:textColorHint="@color/white"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageViewEnterPassword"
+                                app:layout_constraintEnd_toEndOf="@+id/imageViewEnterPassword"
+                                app:layout_constraintStart_toStartOf="@+id/imageViewEnterPassword"
+                                app:layout_constraintTop_toTopOf="@+id/imageViewEnterPassword" />
+
+                            <EditText
+                                android:id="@+id/editTextTextEmailAddress"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginStart="10dp"
+                                android:background="@null"
+                                android:ems="10"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:hint="Email"
+                                android:inputType="textEmailAddress"
+                                android:textColor="@color/white"
+                                android:textColorHighlight="@color/white"
+                                android:textColorHint="@color/white"
+                                android:textColorLink="@color/white"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageViewEnterLogin"
+                                app:layout_constraintEnd_toEndOf="@+id/imageViewEnterLogin"
+                                app:layout_constraintStart_toStartOf="@+id/imageViewEnterLogin"
+                                app:layout_constraintTop_toTopOf="@+id/imageViewEnterLogin" />
+
+                            <ImageView
+                                android:id="@+id/imageViewAuth"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="30dp"
+                                android:onClick="authOnClick"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/imageViewEnterPassword"
+                                app:srcCompat="@drawable/button_two" />
+
+                            <TextView
+                                android:id="@+id/textViewToRegistration2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:text="Войти"
+                                android:textColor="#FFFFFF"
+                                android:textColorHighlight="#FFFFFF"
+                                android:textColorHint="#FFFFFF"
+                                android:textColorLink="#FFFFFF"
+                                android:textSize="18sp"
+                                app:autoSizeMinTextSize="22sp"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageViewAuth"
+                                app:layout_constraintEnd_toEndOf="@+id/imageViewAuth"
+                                app:layout_constraintStart_toStartOf="@+id/imageViewAuth"
+                                app:layout_constraintTop_toTopOf="@+id/imageViewAuth" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/clRegistration"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:visibility="gone">
+
+                            <ImageView
+                                android:id="@+id/imageViewEnterLogin6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/imageViewEnterLogin3"
+                                app:srcCompat="@drawable/enter_field" />
+
+                            <ImageView
+                                android:id="@+id/imageViewEnterLogin7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/imageViewEnterLogin6"
+                                app:srcCompat="@drawable/enter_field" />
+
+                            <EditText
+                                android:id="@+id/editTextTextRepeatPassWordREG"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@null"
+                                android:ems="10"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:hint="Повторите пароль"
+                                android:inputType="textEmailAddress"
+                                android:textColor="@color/white"
+                                android:textColorHighlight="@color/white"
+                                android:textColorHint="@color/white"
+                                android:textColorLink="@color/white"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageViewEnterLogin7"
+                                app:layout_constraintEnd_toEndOf="@+id/imageViewEnterLogin7"
+                                app:layout_constraintStart_toStartOf="@+id/imageViewEnterLogin7"
+                                app:layout_constraintTop_toTopOf="@+id/imageViewEnterLogin7" />
+
+                            <ImageView
+                                android:id="@+id/imageViewRegistrationREG"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_marginTop="20dp"
+                                android:onClick="registrationClick"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/imageViewEnterLogin7"
+                                app:srcCompat="@drawable/button_two" />
+
+                            <TextView
+                                android:id="@+id/textViewToRegistration6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:text="Зарегистрироваться"
+                                android:textColor="#FFFFFF"
+                                android:textColorHighlight="#FFFFFF"
+                                android:textColorHint="#FFFFFF"
+                                android:textColorLink="#FFFFFF"
+                                android:textSize="18sp"
+                                app:autoSizeMinTextSize="22sp"
+                                app:layout_constraintBottom_toBottomOf="@id/imageViewRegistrationREG"
+                                app:layout_constraintEnd_toEndOf="@id/imageViewRegistrationREG"
+                                app:layout_constraintStart_toStartOf="@id/imageViewRegistrationREG"
+                                app:layout_constraintTop_toTopOf="@id/imageViewRegistrationREG" />
+
+                            <TextView
+                                android:id="@+id/textViewEnter3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="60dp"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:text="Регистрация"
+                                android:textColor="#FFFFFF"
+                                android:textColorHighlight="#FFFFFF"
+                                android:textColorHint="#FFFFFF"
+                                android:textColorLink="#FFFFFF"
+                                android:textSize="32sp"
+                                app:autoSizeMinTextSize="22sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/imageViewEnterLogin3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textViewEnter3"
+                                app:srcCompat="@drawable/enter_field" />
+
+                            <EditText
+                                android:id="@+id/editTextTextEmailAddressREG"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@null"
+                                android:ems="10"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:hint="Email"
+                                android:inputType="textEmailAddress"
+                                android:textColor="@color/white"
+                                android:textColorHighlight="@color/white"
+                                android:textColorHint="@color/white"
+                                android:textColorLink="@color/white"
+                                app:layout_constraintBottom_toBottomOf="@id/imageViewEnterLogin3"
+                                app:layout_constraintEnd_toEndOf="@id/imageViewEnterLogin3"
+                                app:layout_constraintStart_toStartOf="@id/imageViewEnterLogin3"
+                                app:layout_constraintTop_toTopOf="@id/imageViewEnterLogin3" />
+
+                            <EditText
+                                android:id="@+id/editTextTextPassWordREG"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:background="@null"
+                                android:ems="10"
+                                android:fontFamily="@font/corporateacondpro_rregular"
+                                android:hint="Пароль"
+                                android:inputType="textEmailAddress"
+                                android:textColor="@color/white"
+                                android:textColorHighlight="@color/white"
+                                android:textColorHint="@color/white"
+                                android:textColorLink="@color/white"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageViewEnterLogin6"
+                                app:layout_constraintEnd_toEndOf="@+id/imageViewEnterLogin6"
+                                app:layout_constraintStart_toStartOf="@+id/imageViewEnterLogin6"
+                                app:layout_constraintTop_toTopOf="@+id/imageViewEnterLogin6" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/authorizedProfileConstraintLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="visible">
+
+                        <Button
+                            android:id="@+id/button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="signOutOnClick"
+                            android:text="Button"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:visibility="visible" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
