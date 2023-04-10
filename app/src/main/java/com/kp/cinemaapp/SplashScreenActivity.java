@@ -17,7 +17,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Thread threadLoading = new Thread() {
             public void run() {
                 try {
-                    TimeUnit.SECONDS.sleep(6);
+                    TimeUnit.SECONDS.sleep(2);
                     Intent intentLoading = new Intent(SplashScreenActivity.this,
                             RegistrationAuthorizationActivity.class);
                     startActivity(intentLoading);

@@ -195,7 +195,7 @@ public class RegistrationAuthorizationActivity extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     if(user != null)
                                     {
-                                        User newUser = new User(UserDataBase.getKey(),user.getUid(), null, null, null, null);
+                                        User newUser = new User(UserDataBase.getKey(),user.getUid(), null, null, null, null, null);
                                         UserDataBase.push().setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

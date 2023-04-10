@@ -1,14 +1,18 @@
 package com.kp.cinemaapp;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +39,7 @@ import com.kp.cinemaapp.model.Genre;
 import com.kp.cinemaapp.model.Movie;
 import com.kp.cinemaapp.model.Schedule;
 import com.kp.cinemaapp.model.User;
+import com.squareup.picasso.Picasso;
 
 import java.sql.Time;
 import java.text.DateFormat;
@@ -48,10 +53,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainFrameActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private FirebaseUser CurrentUser;
 
     private FirebaseDatabase  CinemaAppDB;
     private DatabaseReference UserDataBase;
@@ -237,6 +243,7 @@ public class MainFrameActivity extends AppCompatActivity {
     public void updateProfile(){
 
         if(mAuth.getCurrentUser() == null){
+            hideKeyboard();
             CLUnauthorizedProfile.setVisibility(View.VISIBLE);
             CLAuthorizedProfile.setVisibility(View.GONE);
             backToStartAuth();
@@ -251,6 +258,61 @@ public class MainFrameActivity extends AppCompatActivity {
     }
 
     public void updateAuthProfile(){
+        profileRefreshLayout.setRefreshing(true);
+        ValueEventListener userValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Пытаемся найти пользователя в БД
+                ArrayList<User> userArrayList = new ArrayList<User>();
+                for(DataSnapshot ds2 : dataSnapshot.getChildren()){
+                    User user = ds2.getValue(User.class);
+                    assert user != null;
+                    if(user.Uid.equals(mAuth.getUid().toString())){
+                        //Заполнение всех полей данными о пользователе
+                        TextView tvProfileUserName = findViewById(R.id.textViewNameUserProfile);
+                        TextView tvProfileUserPhone = findViewById(R.id.textViewPhoneUserProfile);
+                        TextView tvProfileUserEmail = findViewById(R.id.textViewEmailUserProfile);
+                        CircleImageView profilePicture = findViewById(R.id.profile_image);
+
+                        if(user.FirstName != null){
+                            tvProfileUserName.setText(user.FirstName);
+                        }
+                        if(user.LastName != null){
+
+                            tvProfileUserName.setText(user.LastName);
+                        }
+                        if(user.FirstName != null && user.LastName != null){
+                            tvProfileUserName.setText(user.FirstName + " "
+                                    + user.LastName);
+                        }
+                        if(user.Phone != null){
+                            tvProfileUserPhone.setText(user.Phone);
+                        }
+                        if(mAuth.getCurrentUser() != null){
+                            if(mAuth.getCurrentUser().getEmail() != null){
+                                tvProfileUserEmail.setText(mAuth.getCurrentUser().getEmail());
+                            }
+                        }
+                        if(user.ProfileImagePath != null){
+                            Picasso.get().load(user.ProfileImagePath).into(profilePicture);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                profileRefreshLayout.setRefreshing(false);
+            }
+        };
+
+        UserDataBase.addValueEventListener(userValueEventListener);
+    }
+
+    public void toEditProfile(View view){
+
+    }
+
+    public void toSupportService(View view){
 
     }
 
@@ -332,7 +394,7 @@ public class MainFrameActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(MainFrameActivity.this,
                                 "Авторизация успешна!", Toast.LENGTH_LONG).show();
-
+                        hideKeyboard();
                         //Переход на новое окно при успешной авторизации
                         cinemasRefreshLayout.setRefreshing(false);
                         clearFields();
@@ -379,12 +441,13 @@ public class MainFrameActivity extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     if(user != null)
                                     {
-                                        User newUser = new User(UserDataBase.getKey(),user.getUid(), null, null, null, null);
+                                        User newUser = new User(UserDataBase.getKey(),user.getUid(), null, null, null, null, null);
                                         UserDataBase.push().setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful())
                                                 {
+                                                    hideKeyboard();
                                                     //Переход на новое окно при успешной регистрации
                                                     cinemasRefreshLayout.setRefreshing(false);
                                                     updateProfile();
@@ -401,6 +464,14 @@ public class MainFrameActivity extends AppCompatActivity {
                     }
                 }
             });
+        }
+    }
+
+    public void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

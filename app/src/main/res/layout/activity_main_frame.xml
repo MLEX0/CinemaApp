@@ -134,7 +134,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/profileRefreshLayout"
@@ -623,21 +623,237 @@
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:visibility="visible">
+                        app:layout_constraintVertical_bias="1.0"
+                        tools:visibility="gone">
 
-                        <Button
-                            android:id="@+id/button"
+                        <TextView
+                            android:id="@+id/textViewyMyProfileTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="40dp"
+                            android:fontFamily="@font/corporateacondpro_rregular"
+                            android:text="Мой профиль"
+                            android:textColor="#FFFFFF"
+                            android:textColorHighlight="#FFFFFF"
+                            android:textColorHint="#FFFFFF"
+                            android:textColorLink="#FFFFFF"
+                            android:textSize="24sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/imageViewProfileLine1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="12dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewyMyProfileTitle"
+                            app:srcCompat="@drawable/prifile_card_background" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profile_image"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/ava"
+                            app:civ_border_color="#697BEA"
+                            app:civ_border_width="4dp"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewProfileLine1" />
+
+                        <TextView
+                            android:id="@+id/textViewNameUserProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/corporateacondpro_rregular"
+                            android:text="Пользователь"
+                            android:textColor="#FFFFFF"
+                            android:textColorHighlight="#FFFFFF"
+                            android:textColorHint="#FFFFFF"
+                            android:textColorLink="#FFFFFF"
+                            android:textSize="24sp"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toEndOf="@+id/profile_image"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewProfileLine1" />
+
+                        <TextView
+                            android:id="@+id/textViewPhoneUserProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/corporateacondpro_rregular"
+                            android:text="Номер телефона"
+                            android:textColor="#FFFFFF"
+                            android:textColorHighlight="#FFFFFF"
+                            android:textColorHint="#FFFFFF"
+                            android:textColorLink="#FFFFFF"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                            app:layout_constraintStart_toEndOf="@+id/imageView3"
+                            app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintStart_toStartOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintTop_toBottomOf="@+id/profile_image"
+                            app:srcCompat="@drawable/profile_card_line" />
+
+                        <ImageView
+                            android:id="@+id/imageViewEditProfileButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:onClick="toEditProfile"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toEndOf="@+id/profile_image"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewNameUserProfile"
+                            app:srcCompat="@drawable/edit_icon" />
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintStart_toStartOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                            app:srcCompat="@drawable/profile_card_line" />
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView4"
+                            app:srcCompat="@drawable/phone_message_icon" />
+
+                        <ImageView
+                            android:id="@+id/imageView6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintStart_toStartOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView5"
+                            app:srcCompat="@drawable/email_phone_icon" />
+
+                        <TextView
+                            android:id="@+id/textViewEmailUserProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/corporateacondpro_rregular"
+                            android:text="Email"
+                            android:textColor="#FFFFFF"
+                            android:textColorHighlight="#FFFFFF"
+                            android:textColorHint="#FFFFFF"
+                            android:textColorLink="#FFFFFF"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                            app:layout_constraintStart_toEndOf="@+id/imageView6"
+                            app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+                        <TextView
+                            android:id="@+id/textViewSupportService"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:fontFamily="@font/corporateacondpro_rregular"
+                            android:text="Служба поддержки"
+                            android:textColor="#FFFFFF"
+                            android:textColorHighlight="#FFFFFF"
+                            android:textColorHint="#FFFFFF"
+                            android:textColorLink="#FFFFFF"
+                            android:textSize="17sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintTop_toBottomOf="@+id/imageViewProfileLine1" />
+
+                        <TextView
+                            android:id="@+id/textViewSignOut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:fontFamily="@font/corporateacondpro_rregular"
+                            android:text="Выйти из профиля"
+                            android:textColor="#FFFFFF"
+                            android:textColorHighlight="#FFFFFF"
+                            android:textColorHint="#FFFFFF"
+                            android:textColorLink="#FFFFFF"
+                            android:textSize="17sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@+id/imageViewProfileLine1"
+                            app:layout_constraintTop_toBottomOf="@+id/imageViewServiceDarkLine" />
+
+                        <ImageView
+                            android:id="@+id/imageViewServiceDarkLine"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@+id/textViewSupportService"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewSupportService"
+                            app:srcCompat="@drawable/dark_profile_line" />
+
+                        <ImageView
+                            android:id="@+id/imageViewServiceDarkLine2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@+id/textViewSignOut"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewSignOut"
+                            app:srcCompat="@drawable/dark_profile_line" />
+
+                        <ImageView
+                            android:id="@+id/imageViewArrowToSupportServiceButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="toSupportService"
+                            app:layout_constraintBottom_toBottomOf="@+id/textViewSupportService"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewServiceDarkLine"
+                            app:layout_constraintTop_toTopOf="@+id/textViewSupportService"
+                            app:srcCompat="@drawable/right_arrow" />
+
+                        <ImageView
+                            android:id="@+id/imageViewArrowLogOutButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:onClick="signOutOnClick"
-                            android:text="Button"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:visibility="visible" />
+                            app:layout_constraintBottom_toBottomOf="@+id/textViewSignOut"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewServiceDarkLine2"
+                            app:layout_constraintTop_toTopOf="@+id/textViewSignOut"
+                            app:srcCompat="@drawable/right_arrow" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
