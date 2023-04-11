@@ -1,5 +1,7 @@
 package com.kp.cinemaapp;
 
+import com.kp.cinemaapp.model.Movie;
+
 public class Constants {
     public final static String USER_KEY = "User";
     public final static String CINEMA_KEY = "Cinema";
@@ -9,4 +11,5 @@ public class Constants {
     public final static String HALL_KEY = "Hall";
     public final static String HALL_ROW_PLACE_KEY = "HallRowPlace";
     public final static String TICKET_KEY = "Ticket";
+    public static Movie openMovie;
 }

@@ -1,18 +1,20 @@
 package com.kp.cinemaapp;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,20 +43,12 @@ import com.kp.cinemaapp.adapters.CinemaListAdapter;
 import com.kp.cinemaapp.model.Cinema;
 import com.kp.cinemaapp.model.Genre;
 import com.kp.cinemaapp.model.Movie;
-import com.kp.cinemaapp.model.Schedule;
 import com.kp.cinemaapp.model.User;
 import com.squareup.picasso.Picasso;
 
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -99,9 +95,23 @@ public class MainFrameActivity extends AppCompatActivity {
     private EditText textPasswordReg;
     private EditText textPasswordReg2;
 
+    //Cinema
     private ListView listViewCinema;
     private ArrayList<Cinema> listCinema;
     private CinemaListAdapter cinemaAdapter;
+
+    //Genre
+    RecyclerView rvGenre;
+    LinearLayoutManager genreLayoutManager;
+    private ArrayList<Genre> listGenre;
+    GenreRvAdapter genreRvAdapter;
+    public int globalGenrePosition;
+
+    //Movie
+    RecyclerView rvMovie;
+    LinearLayoutManager movieLayoutManager;
+    private ArrayList<Movie> listMovie;
+    MovieRvAdapter movieRvAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,6 +121,34 @@ public class MainFrameActivity extends AppCompatActivity {
         Init();
 
         SetBottomNavigationSelectedListener();
+
+        List<String> genresForMovie = new ArrayList<String>();
+        genresForMovie.add("Комедия");
+
+
+        Movie movie = new Movie(MovieDataBase.getKey(), GenerateID(), "ЁЛКИ 9", "О фильме:\n" +
+                "За считанные часы до праздника все с замиранием сердца надеются на чудо. " +
+                "Вся деревня Глухарево готовится с размахом встречать зарубежную кинозвезду. " +
+                "В Тюмени домохозяйке и будущей блогерше необходимо выиграть пари с мужем. " +
+                "В Екатеринбурге влюбленный ролевик разрывается между семейным счастьем и эпическими приключениями. " +
+                "В Санкт-Петербурге девушка вместе с долгожданным предложением руки и сердца узнает, что ее жених был мошенником. " +
+                "Как всегда, судьбы героев неожиданно переплетутся и каждому достанется своя частичка новогоднего волшебства.",
+                "Виктория Агалакова,Евгений Кулик,Федор Добронравов, " +
+                        "Алексей Серебряков, Максим Лагашкин, Елена Валюшкина, " +
+                        "Григорий Калинин, Александр Баширов, Елена Захарова, " +
+                        "Софья Присс, Ростислав Бершауэр, Валерия Человечкова, " +
+                        "Михаил Орлов, Наталия Валькович, Юлия Макарова, " +
+                        "Андрей Никульский", "1 час 30 минут", "путь вставить сюда", genresForMovie);
+
+        /*MovieDataBase.push().setValue(movie).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });*/
+
+        updateMain();
+
     }
 
     private void Init(){
@@ -151,12 +189,26 @@ public class MainFrameActivity extends AppCompatActivity {
         textPasswordReg2 = findViewById(R.id.editTextTextRepeatPassWordREG);
 
 
-        //Инициализируем адаптеры для ListView
+        //Инициализируем адаптеры для ListView и RecyclerView
+
+        //Cinema
         listViewCinema = findViewById(R.id.listViewCinema);
         listCinema = new ArrayList<Cinema>();
         cinemaAdapter = new CinemaListAdapter(MainFrameActivity.this, listCinema);
         listViewCinema.setAdapter(cinemaAdapter);
         listViewCinema.setSelector(android.R.color.transparent);//Не кликабельный
+
+
+        //Genre
+        listGenre = new ArrayList<Genre>();
+        rvGenre = findViewById(R.id.RecyclerViewGenre);
+
+        //Movie
+        listMovie = new ArrayList<Movie>();
+        rvMovie = findViewById(R.id.RecyclerViewMovie);
+
+        //Tickets
+
 
         //Refresh Layout
         mainRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.mainRefreshLayout);
@@ -198,10 +250,178 @@ public class MainFrameActivity extends AppCompatActivity {
     //--MainStart
 
     public void updateMain(){
+        //--GenreStart
+        if(listGenre.isEmpty()){
+            mainRefreshLayout.setRefreshing(true);
+        }
+        ValueEventListener mainGenreListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(listGenre.size() > 0){listGenre.clear();}
+                Genre AllGenre = new Genre("0", "0", "Все");
+                listGenre.add(AllGenre);
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    //Заполняем массив жанров
+                    Genre genre = ds.getValue(Genre.class);
+                    assert genre != null;
+                    listGenre.add(genre);
+                }
+                UpdateGenreList();
+                mainRefreshLayout.setRefreshing(false);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainFrameActivity.this,
+                        "Проверьте интернет соединение!",
+                        Toast.LENGTH_SHORT).show();
+                mainRefreshLayout.setRefreshing(false);
+            }
+        };
 
-        mainRefreshLayout.setRefreshing(false);
+        GenreDataBase.removeEventListener(mainGenreListener);
+        GenreDataBase.addValueEventListener(mainGenreListener);
+
+        //--GenreEnd
+        if(listMovie.isEmpty()){
+            mainRefreshLayout.setRefreshing(true);
+        }
+
+        ValueEventListener mainMovieListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(listMovie.size() > 0){listMovie.clear();}
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    //Заполняем массив жанров
+                    Movie movie = ds.getValue(Movie.class);
+                    assert movie != null;
+                    listMovie.add(movie);
+                }
+                UpdateMovieList();
+                mainRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainFrameActivity.this,
+                        "Проверьте интернет соединение!",
+                        Toast.LENGTH_SHORT).show();
+                mainRefreshLayout.setRefreshing(false);
+            }
+        };
+
+        MovieDataBase.removeEventListener(mainMovieListener);
+        MovieDataBase.addValueEventListener(mainMovieListener);
     }
+
+    public void UpdateGenreList(){
+        genreLayoutManager = new LinearLayoutManager(MainFrameActivity.this,
+                LinearLayoutManager.HORIZONTAL, false);
+        genreRvAdapter = new GenreRvAdapter(listGenre);
+        rvGenre.setLayoutManager(genreLayoutManager);
+        rvGenre.setAdapter(genreRvAdapter);
+    }
+
+    public void UpdateMovieList(){
+        movieLayoutManager = new LinearLayoutManager(MainFrameActivity.this,
+                LinearLayoutManager.HORIZONTAL, false);
+        movieRvAdapter = new MovieRvAdapter(listMovie);
+        rvMovie.setLayoutManager(movieLayoutManager);
+        rvMovie.setAdapter(movieRvAdapter);
+    }
+
+    //--GenreRVAdapterStart
+    class GenreRvAdapter extends RecyclerView.Adapter<GenreRvAdapter.GenreHolder> {
+        ArrayList<Genre> data;
+
+        public GenreRvAdapter(ArrayList<Genre> data) {
+            this.data = data;
+        }
+
+        @NonNull
+        @Override
+        public GenreHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(MainFrameActivity.this).inflate(R.layout.item_list_genre, parent, false);
+            return new GenreHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull GenreHolder holder, int position) {
+            if(position == globalGenrePosition){
+                holder.tvGenreTitle.setTextColor(Color.parseColor("#727CBA"));
+            }
+            holder.tvGenreTitle.setText(data.get(position).Name);
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+
+        class GenreHolder extends RecyclerView.ViewHolder {
+            TextView tvGenreTitle;
+
+            public GenreHolder(@NonNull View itemView) {
+                super(itemView);
+                tvGenreTitle = itemView.findViewById(R.id.tvGenreName);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        globalGenrePosition=getAdapterPosition();
+                        UpdateGenreList();
+                    }
+                });
+            }
+        }
+
+    }
+    //--GenreRVAdapterEnd
+
+    //--MovieRVAdapterStart
+    class MovieRvAdapter extends RecyclerView.Adapter<MovieRvAdapter.MovieHolder> {
+        ArrayList<Movie> data;
+
+        public MovieRvAdapter(ArrayList<Movie> data) {
+            this.data = data;
+        }
+
+        @NonNull
+        @Override
+        public MovieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(MainFrameActivity.this).inflate(R.layout.item_list_movie, parent, false);
+            return new MovieHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
+            if(data.get(position).movieImagePath != null){
+                Picasso.get().load(data.get(position).movieImagePath).into(holder.tvMovieImage);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+
+        class MovieHolder extends RecyclerView.ViewHolder {
+            ImageView tvMovieImage;
+            public MovieHolder(@NonNull View itemView) {
+                super(itemView);
+                tvMovieImage = itemView.findViewById(R.id.roundedMovieImageView);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Constants.openMovie = listMovie.get(getAdapterPosition());
+                        Intent openMovieIntent = new Intent(MainFrameActivity.this, ViewMovieActivity.class);
+                        startActivity(openMovieIntent);
+                    }
+                });
+            }
+        }
+
+    }
+    //--MovieRVAdapterEnd
 
     //--MainEnd
 

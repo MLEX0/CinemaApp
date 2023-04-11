@@ -34,6 +34,7 @@
         <activity android:name="com.kp.cinemaapp.MainFrameActivity" />
         <activity android:name="com.kp.cinemaapp.EditProfileActivity" />
         <activity android:name="com.kp.cinemaapp.SupportServiceActivity" />
+        <activity android:name="com.kp.cinemaapp.ViewMovieActivity" />
 
     </application>
 
