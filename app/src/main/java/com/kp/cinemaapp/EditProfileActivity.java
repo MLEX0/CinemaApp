@@ -140,7 +140,7 @@ public class EditProfileActivity extends AppCompatActivity {
     public void saveChangesOnClick(View view) {
         if(imageIsLoading){
             Toast.makeText(EditProfileActivity.this,
-                    "Подождите, картинка выгружается в облако",
+                    "Подождите, картинка выгружается в облако...",
                     Toast.LENGTH_SHORT).show();
             return;
         }

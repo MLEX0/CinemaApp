@@ -1,5 +1,6 @@
 package com.kp.cinemaapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -72,24 +73,24 @@ public class MainFrameActivity extends AppCompatActivity {
 
     private BottomNavigationView BottomNav;
 
-    SwipeRefreshLayout mainRefreshLayout;
-    SwipeRefreshLayout cinemasRefreshLayout;
-    SwipeRefreshLayout ticketsRefreshLayout;
-    SwipeRefreshLayout profileRefreshLayout;
+    private SwipeRefreshLayout mainRefreshLayout;
+    private SwipeRefreshLayout cinemasRefreshLayout;
+    private SwipeRefreshLayout ticketsRefreshLayout;
+    private SwipeRefreshLayout profileRefreshLayout;
 
-    ConstraintLayout mainConstraintLayout;
-    ConstraintLayout cinemasConstraintLayout;
-    ConstraintLayout ticketsConstraintLayout;
-    ConstraintLayout profileConstraintLayout;
+    private ConstraintLayout mainConstraintLayout;
+    private ConstraintLayout cinemasConstraintLayout;
+    private ConstraintLayout ticketsConstraintLayout;
+    private ConstraintLayout profileConstraintLayout;
 
-    ConstraintLayout CLAuthToReg;
-    ConstraintLayout CLAuth;
-    ConstraintLayout CLReg;
+    private ConstraintLayout CLAuthToReg;
+    private ConstraintLayout CLAuth;
+    private ConstraintLayout CLReg;
 
     //unauthorizedProfileConstraintLayout
 
-    ConstraintLayout CLUnauthorizedProfile;
-    ConstraintLayout CLAuthorizedProfile;
+    private ConstraintLayout CLUnauthorizedProfile;
+    private ConstraintLayout CLAuthorizedProfile;
 
     private EditText textEmail;
     private EditText textPassword;
@@ -100,7 +101,7 @@ public class MainFrameActivity extends AppCompatActivity {
 
     private ListView listViewCinema;
     private ArrayList<Cinema> listCinema;
-    CinemaListAdapter cinemaAdapter;
+    private CinemaListAdapter cinemaAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -194,6 +195,7 @@ public class MainFrameActivity extends AppCompatActivity {
 
     }
 
+    //--MainStart
 
     public void updateMain(){
 
@@ -201,6 +203,9 @@ public class MainFrameActivity extends AppCompatActivity {
         mainRefreshLayout.setRefreshing(false);
     }
 
+    //--MainEnd
+
+    //--CinemasStart
     public void updateCinemas(){
         if(listCinema.isEmpty()){
             cinemasRefreshLayout.setRefreshing(true);
@@ -232,6 +237,11 @@ public class MainFrameActivity extends AppCompatActivity {
         cinemaAdapter.notifyDataSetChanged();
     }
 
+    //--CinemasEnd
+
+
+    //--TicketsStart
+
     public void updateTickets(){
 
 
@@ -239,6 +249,7 @@ public class MainFrameActivity extends AppCompatActivity {
         ticketsRefreshLayout.setRefreshing(false);
     }
 
+    //--TicketsEnd
 
     //--ProfileStart
     public void updateProfile(){
@@ -261,6 +272,7 @@ public class MainFrameActivity extends AppCompatActivity {
     public void updateAuthProfile(){
         profileRefreshLayout.setRefreshing(true);
         ValueEventListener userValueEventListener = new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //Пытаемся найти пользователя в БД
@@ -490,6 +502,8 @@ public class MainFrameActivity extends AppCompatActivity {
 
     //--RegistrationAuthorizationEnd
 
+
+    //--BottomNavigationStart
     private void SetBottomNavigationSelectedListener() {
 
         BottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -544,6 +558,9 @@ public class MainFrameActivity extends AppCompatActivity {
         profileConstraintLayout.setVisibility(View.VISIBLE);
     }
 
+    //--BottomNavigationEnd
+
+    //--HelpMethodsStart
     private String GenerateID(){
         Calendar rightNow = Calendar.getInstance();
         long offset = rightNow.get(Calendar.ZONE_OFFSET) +
@@ -553,4 +570,5 @@ public class MainFrameActivity extends AppCompatActivity {
         Random rnd = new Random();
         return sinceMidnight + "" + rnd.nextInt() + "" + rnd.nextInt();
     }
+    //--HelpMethodsEnd
 }
