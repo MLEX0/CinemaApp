@@ -667,7 +667,7 @@
                             android:layout_marginTop="10dp"
                             android:src="@drawable/ava"
                             app:civ_border_color="#697BEA"
-                            app:civ_border_width="4dp"
+                            app:civ_border_width="2dp"
                             app:layout_constraintEnd_toEndOf="@+id/imageViewProfileLine1"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="@+id/imageViewProfileLine1"
@@ -675,11 +675,16 @@
 
                         <TextView
                             android:id="@+id/textViewNameUserProfile"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
                             android:fontFamily="@font/corporateacondpro_rregular"
+                            android:isScrollContainer="false"
+                            android:scrollbarStyle="outsideInset"
+                            android:scrollbars="horizontal"
+                            android:scrollHorizontally="true"
                             android:text="Пользователь"
                             android:textColor="#FFFFFF"
                             android:textColorHighlight="#FFFFFF"
@@ -693,9 +698,10 @@
 
                         <TextView
                             android:id="@+id/textViewPhoneUserProfile"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
                             android:fontFamily="@font/corporateacondpro_rregular"
                             android:text="Номер телефона"
                             android:textColor="#FFFFFF"
@@ -704,6 +710,7 @@
                             android:textColorLink="#FFFFFF"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewProfileLine1"
                             app:layout_constraintStart_toEndOf="@+id/imageView3"
                             app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
@@ -764,9 +771,10 @@
 
                         <TextView
                             android:id="@+id/textViewEmailUserProfile"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
                             android:fontFamily="@font/corporateacondpro_rregular"
                             android:text="Email"
                             android:textColor="#FFFFFF"
@@ -775,6 +783,7 @@
                             android:textColorLink="#FFFFFF"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewProfileLine1"
                             app:layout_constraintStart_toEndOf="@+id/imageView6"
                             app:layout_constraintTop_toTopOf="@+id/imageView6" />
 

@@ -1,7 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
+    <ImageView
+        android:id="@+id/imageViewArrowBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:onClick="cancelOnClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/left_arrow" />
+
+    <TextView
+        android:id="@+id/textViewEditProfileTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/corporateacondpro_rregular"
+        android:text="Редактировать профиль"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewArrowBackButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageViewArrowBackButton"
+        app:layout_constraintTop_toTopOf="@+id/imageViewArrowBackButton" />
+
+    <ImageView
+        android:id="@+id/imageViewEditProfileBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEditProfileTitle"
+        app:srcCompat="@drawable/edit_profile_background" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/edit_profile_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="5dp"
+        android:onClick="chooseImageOnClick"
+        android:src="@drawable/ava"
+        app:civ_border_color="#697BEA"
+        app:civ_border_width="2dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintTop_toTopOf="@+id/imageViewEditProfileBackground" />
+
+    <TextView
+        android:id="@+id/textViewEditProfileChangePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/corporateacondpro_rregular"
+        android:text="Сменить фото"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintTop_toBottomOf="@+id/edit_profile_image" />
+
+    <ImageView
+        android:id="@+id/imageViewEditProfileLine1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEditProfileChangePhoto"
+        app:srcCompat="@drawable/profile_card_line" />
+
+    <ImageView
+        android:id="@+id/imageViewEditProfileLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEditProfileLine1"
+        app:srcCompat="@drawable/profile_card_line" />
+
+    <ImageView
+        android:id="@+id/imageViewEditProfileLine2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEditPersonName"
+        app:srcCompat="@drawable/profile_card_line" />
+
+    <ImageView
+        android:id="@+id/imageViewEditProfileLine3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEditProfileLine2"
+        app:srcCompat="@drawable/profile_card_line" />
+
+    <ImageView
+        android:id="@+id/imageViewEditProfileLine4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEditPersonPhone"
+        app:srcCompat="@drawable/profile_card_line" />
+
+    <EditText
+        android:id="@+id/editTextEditPersonName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@null"
+        android:ems="10"
+        android:fontFamily="@font/corporateacondpro_rregular"
+        android:hint="Имя"
+        android:inputType="textPersonName"
+        android:textColor="#82D7D7D7"
+        android:textColorHighlight="#82D7D7D7"
+        android:textColorHint="#82D7D7D7"
+        android:textColorLink="#82D7D7D7"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewEditProfileLine"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEditProfileLine"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEditProfileLine1" />
+
+    <EditText
+        android:id="@+id/editTextEditPersonLastName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@null"
+        android:ems="10"
+        android:fontFamily="@font/corporateacondpro_rregular"
+        android:hint="Фамилия"
+        android:inputType="textPersonName"
+        android:textColor="#82D7D7D7"
+        android:textColorHighlight="#82D7D7D7"
+        android:textColorHint="#82D7D7D7"
+        android:textColorLink="#82D7D7D7"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewEditProfileLine2"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEditProfileLine"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEditProfileLine"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextEditPersonPhone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@null"
+        android:ems="10"
+        android:fontFamily="@font/corporateacondpro_rregular"
+        android:hint="Телефон"
+        android:inputType="textPersonName|phone"
+        android:textColor="#82D7D7D7"
+        android:textColorHighlight="#82D7D7D7"
+        android:textColorHint="#82D7D7D7"
+        android:textColorLink="#82D7D7D7"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewEditProfileLine3"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEditProfileLine"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEditProfileLine2" />
+
+    <EditText
+        android:id="@+id/editTextEditPersonEmail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@null"
+        android:ems="10"
+        android:fontFamily="@font/corporateacondpro_rregular"
+        android:hint="Email"
+        android:inputType="textPersonName"
+        android:textColor="#82D7D7D7"
+        android:textColorHighlight="#82D7D7D7"
+        android:textColorHint="#82D7D7D7"
+        android:textColorLink="#82D7D7D7"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewEditProfileLine4"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEditProfileBackground"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEditProfileLine"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEditProfileLine3" />
+
+    <ImageView
+        android:id="@+id/imageViewButtonSaveChangesInProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="saveChangesOnClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEditProfileBackground"
+        app:srcCompat="@drawable/edit_profile_save_button" />
+
+    <TextView
+        android:id="@+id/textViewSaveChangesInProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/corporateacondpro_rregular"
+        android:text="Сохранить"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewButtonSaveChangesInProfile"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewButtonSaveChangesInProfile"
+        app:layout_constraintStart_toStartOf="@+id/imageViewButtonSaveChangesInProfile"
+        app:layout_constraintTop_toTopOf="@+id/imageViewButtonSaveChangesInProfile" />
 </androidx.constraintlayout.widget.ConstraintLayout>

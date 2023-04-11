@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -270,8 +271,17 @@ public class MainFrameActivity extends AppCompatActivity {
                     if(user.Uid.equals(mAuth.getUid().toString())){
                         //Заполнение всех полей данными о пользователе
                         TextView tvProfileUserName = findViewById(R.id.textViewNameUserProfile);
+                        tvProfileUserName.setMovementMethod(new ScrollingMovementMethod());
+                        tvProfileUserName.setHorizontallyScrolling(true);
+
                         TextView tvProfileUserPhone = findViewById(R.id.textViewPhoneUserProfile);
+                        tvProfileUserPhone.setMovementMethod(new ScrollingMovementMethod());
+                        tvProfileUserPhone.setHorizontallyScrolling(true);
+
                         TextView tvProfileUserEmail = findViewById(R.id.textViewEmailUserProfile);
+                        tvProfileUserEmail.setMovementMethod(new ScrollingMovementMethod());
+                        tvProfileUserEmail.setHorizontallyScrolling(true);
+
                         CircleImageView profilePicture = findViewById(R.id.profile_image);
 
                         if(user.FirstName != null){
@@ -309,11 +319,14 @@ public class MainFrameActivity extends AppCompatActivity {
     }
 
     public void toEditProfile(View view){
-
+        Intent editProfile = new Intent(MainFrameActivity.this, EditProfileActivity.class);
+        startActivity(editProfile);
+        updateProfile();
     }
 
     public void toSupportService(View view){
-
+        Intent supportService = new Intent(MainFrameActivity.this, SupportServiceActivity.class);
+        startActivity(supportService);
     }
 
     public void signOutOnClick(View view){

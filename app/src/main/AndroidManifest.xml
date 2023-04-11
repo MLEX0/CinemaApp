@@ -33,6 +33,7 @@
         <activity android:name="com.kp.cinemaapp.RegistrationAuthorizationActivity" />
         <activity android:name="com.kp.cinemaapp.MainFrameActivity" />
         <activity android:name="com.kp.cinemaapp.EditProfileActivity" />
+        <activity android:name="com.kp.cinemaapp.SupportServiceActivity" />
 
     </application>
 
