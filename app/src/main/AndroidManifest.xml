@@ -35,6 +35,7 @@
         <activity android:name="com.kp.cinemaapp.EditProfileActivity" />
         <activity android:name="com.kp.cinemaapp.SupportServiceActivity" />
         <activity android:name="com.kp.cinemaapp.ViewMovieActivity" />
+        <activity android:name="com.kp.cinemaapp.MovieScheduleActivity" />
 
     </application>
 

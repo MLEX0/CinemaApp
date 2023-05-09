@@ -123,22 +123,16 @@ public class MainFrameActivity extends AppCompatActivity {
         SetBottomNavigationSelectedListener();
 
         List<String> genresForMovie = new ArrayList<String>();
-        genresForMovie.add("Комедия");
+        genresForMovie.add("Детектив");
+        genresForMovie.add("Приключение");
+        genresForMovie.add("Триллер");
 
 
-        Movie movie = new Movie(MovieDataBase.getKey(), GenerateID(), "ЁЛКИ 9", "О фильме:\n" +
-                "За считанные часы до праздника все с замиранием сердца надеются на чудо. " +
-                "Вся деревня Глухарево готовится с размахом встречать зарубежную кинозвезду. " +
-                "В Тюмени домохозяйке и будущей блогерше необходимо выиграть пари с мужем. " +
-                "В Екатеринбурге влюбленный ролевик разрывается между семейным счастьем и эпическими приключениями. " +
-                "В Санкт-Петербурге девушка вместе с долгожданным предложением руки и сердца узнает, что ее жених был мошенником. " +
-                "Как всегда, судьбы героев неожиданно переплетутся и каждому достанется своя частичка новогоднего волшебства.",
-                "Виктория Агалакова,Евгений Кулик,Федор Добронравов, " +
-                        "Алексей Серебряков, Максим Лагашкин, Елена Валюшкина, " +
-                        "Григорий Калинин, Александр Баширов, Елена Захарова, " +
-                        "Софья Присс, Ростислав Бершауэр, Валерия Человечкова, " +
-                        "Михаил Орлов, Наталия Валькович, Юлия Макарова, " +
-                        "Андрей Никульский", "1 час 30 минут", "путь вставить сюда", genresForMovie);
+        Movie movie = new Movie(MovieDataBase.getKey(), GenerateID(), "Тень. Взять Гордея", "О фильме:\n" +
+                "Он — неуловимый шпион, который проходит по сводкам как «Гордей». Он — настоящая тень, человек с множеством лиц, которого никто никогда не видел. Поймать предателя Гордея — главная цель российской контрразведки, ведь этот загадочный человек неуловим и крадет государственные секреты. Когда появляется информация, что Гордей прямо сейчас действует в Москве и под угрозой оказывается национальная безопасность страны, на его след выходит молодой контрразведчик Вадим. Ставки в шпионской игре повышаются с каждым днем, главная из них — поймать Гордея пока не поздно, или погибнуть…",
+                "Актеры:\n" +
+                        "Олег Гаас, Филипп Янковский, Антон Кукушкин, Татьяна Бабенкова, Екатерина Шарыкина, Андрей Ильин, Владимир Веревочкин, Дмитрий Поднозов, Денис Пьянов, Эмилия Спивак, Мария Лисовая, Олег Евтеев, Анна Екатерининская, Александр Лавров, Роман Елкин, Андрей Никульский",
+                "1 час 30 минут", "путь вставить сюда", genresForMovie);
 
         /*MovieDataBase.push().setValue(movie).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -202,6 +196,7 @@ public class MainFrameActivity extends AppCompatActivity {
         //Genre
         listGenre = new ArrayList<Genre>();
         rvGenre = findViewById(R.id.RecyclerViewGenre);
+        globalGenrePosition = 0;
 
         //Movie
         listMovie = new ArrayList<Movie>();
@@ -251,6 +246,15 @@ public class MainFrameActivity extends AppCompatActivity {
 
     public void updateMain(){
         //--GenreStart
+        UpdateGenreFromDatabase();
+        //--GenreEnd
+        //--MovieStart
+        UpdateMovieFromDatabase();
+        //--MovieEnd
+    }
+
+    private void UpdateGenreFromDatabase(){
+        //--GenreStart
         if(listGenre.isEmpty()){
             mainRefreshLayout.setRefreshing(true);
         }
@@ -266,6 +270,7 @@ public class MainFrameActivity extends AppCompatActivity {
                     assert genre != null;
                     listGenre.add(genre);
                 }
+                globalGenrePosition = 0;
                 UpdateGenreList();
                 mainRefreshLayout.setRefreshing(false);
             }
@@ -281,8 +286,11 @@ public class MainFrameActivity extends AppCompatActivity {
 
         GenreDataBase.removeEventListener(mainGenreListener);
         GenreDataBase.addValueEventListener(mainGenreListener);
-
         //--GenreEnd
+    }
+
+    private void UpdateMovieFromDatabase(){
+        //--MovieStart
         if(listMovie.isEmpty()){
             mainRefreshLayout.setRefreshing(true);
         }
@@ -295,9 +303,22 @@ public class MainFrameActivity extends AppCompatActivity {
                     //Заполняем массив жанров
                     Movie movie = ds.getValue(Movie.class);
                     assert movie != null;
-                    listMovie.add(movie);
+                    if(globalGenrePosition != 0 && !listGenre.isEmpty()){
+                        boolean IsAdded = false;
+                        for (String thisMovieGenre: movie.GenresID) {
+                            if(listGenre.get(globalGenrePosition).Name.equals(thisMovieGenre)){
+                                IsAdded = true;
+                            }
+                        }
+                        if(IsAdded){
+                            listMovie.add(movie);
+                        }
+                    } else {
+                        listMovie.add(movie);
+                    }
                 }
                 UpdateMovieList();
+                movieLayoutManager.scrollToPosition(0);
                 mainRefreshLayout.setRefreshing(false);
             }
 
@@ -312,14 +333,18 @@ public class MainFrameActivity extends AppCompatActivity {
 
         MovieDataBase.removeEventListener(mainMovieListener);
         MovieDataBase.addValueEventListener(mainMovieListener);
+        //--MovieEnd
     }
 
     public void UpdateGenreList(){
         genreLayoutManager = new LinearLayoutManager(MainFrameActivity.this,
                 LinearLayoutManager.HORIZONTAL, false);
+        genreLayoutManager.setSmoothScrollbarEnabled(false);
+        genreLayoutManager.scrollToPosition(globalGenrePosition);
         genreRvAdapter = new GenreRvAdapter(listGenre);
         rvGenre.setLayoutManager(genreLayoutManager);
         rvGenre.setAdapter(genreRvAdapter);
+
     }
 
     public void UpdateMovieList(){
@@ -368,7 +393,9 @@ public class MainFrameActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         globalGenrePosition=getAdapterPosition();
+
                         UpdateGenreList();
+                        UpdateMovieFromDatabase();
                     }
                 });
             }
@@ -395,7 +422,7 @@ public class MainFrameActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
             if(data.get(position).movieImagePath != null){
-                Picasso.get().load(data.get(position).movieImagePath).into(holder.tvMovieImage);
+                Picasso.get().load(data.get(position).movieImagePath).into(holder.ivMovieImage);
             }
         }
 
@@ -405,11 +432,11 @@ public class MainFrameActivity extends AppCompatActivity {
         }
 
         class MovieHolder extends RecyclerView.ViewHolder {
-            ImageView tvMovieImage;
+            ImageView ivMovieImage;
             public MovieHolder(@NonNull View itemView) {
                 super(itemView);
-                tvMovieImage = itemView.findViewById(R.id.roundedMovieImageView);
-                itemView.setOnClickListener(new View.OnClickListener() {
+                ivMovieImage = itemView.findViewById(R.id.roundedMovieImageView);
+                ivMovieImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Constants.openMovie = listMovie.get(getAdapterPosition());
