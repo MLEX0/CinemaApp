@@ -1,16 +1,18 @@
 package com.kp.cinemaapp.model;
 
 public class Ticket {
-    public String ticketID, generatedTicketID, scheduleID, userUID, hallRowPlaceID;
+    public String ticketID, generatedTicketID, scheduleID, userUID;
+
+    public HallRowPlace ticketPlace;
 
     public Ticket() {
     }
 
-    public Ticket(String ticketID, String generatedTicketID, String scheduleID, String userUID, String hallRowPlaceID) {
+    public Ticket(String ticketID, String generatedTicketID, String scheduleID, String userUID, HallRowPlace ticketPlace) {
         this.ticketID = ticketID;
         this.generatedTicketID = generatedTicketID;
         this.scheduleID = scheduleID;
         this.userUID = userUID;
-        this.hallRowPlaceID = hallRowPlaceID;
+        this.ticketPlace = ticketPlace;
     }
 }

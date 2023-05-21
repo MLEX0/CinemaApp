@@ -1,14 +1,15 @@
 package com.kp.cinemaapp.model;
 
 public class MovieDate {
-    String id, DayNumber, DayOfWeekName;
+    public String id, DayNumber, DayOfWeekName, fullDate;
 
     public MovieDate() {
     }
 
-    public MovieDate(String id, String dayNumber, String dayOfWeekName) {
+    public MovieDate(String id, String dayNumber, String dayOfWeekName, String fullDate) {
         this.id = id;
         this.DayNumber = dayNumber;
         this.DayOfWeekName = dayOfWeekName;
+        this.fullDate = fullDate;
     }
 }

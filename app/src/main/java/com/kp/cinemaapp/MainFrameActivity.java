@@ -344,7 +344,6 @@ public class MainFrameActivity extends AppCompatActivity {
         genreRvAdapter = new GenreRvAdapter(listGenre);
         rvGenre.setLayoutManager(genreLayoutManager);
         rvGenre.setAdapter(genreRvAdapter);
-
     }
 
     public void UpdateMovieList(){
