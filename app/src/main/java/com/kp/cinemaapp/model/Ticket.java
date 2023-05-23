@@ -5,6 +5,8 @@ public class Ticket {
 
     public HallRowPlace ticketPlace;
 
+    private Schedule thisSchedule;
+
     public Ticket() {
     }
 
@@ -15,4 +17,14 @@ public class Ticket {
         this.userUID = userUID;
         this.ticketPlace = ticketPlace;
     }
+
+    public Schedule getThisSchedule() {
+        return thisSchedule;
+    }
+
+    public void setThisSchedule(Schedule thisSchedule) {
+        this.thisSchedule = thisSchedule;
+    }
+
+
 }

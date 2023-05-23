@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,13 +36,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.kp.cinemaapp.adapters.BuyTicketListAdapter;
+import com.kp.cinemaapp.adapters.CinemaListAdapter;
 import com.kp.cinemaapp.adapters.SpinnerBuyTicketAdapter;
+import com.kp.cinemaapp.model.Cinema;
 import com.kp.cinemaapp.model.Genre;
 import com.kp.cinemaapp.model.Hall;
 import com.kp.cinemaapp.model.HallRowPlace;
 import com.kp.cinemaapp.model.Movie;
 import com.kp.cinemaapp.model.MovieDate;
 import com.kp.cinemaapp.model.Schedule;
+import com.kp.cinemaapp.model.Ticket;
 import com.squareup.picasso.Picasso;
 
 import java.time.LocalDate;
@@ -86,6 +91,18 @@ public class MovieScheduleActivity extends AppCompatActivity {
     MovieScheduleActivity.MovieTimeAdapter timeRvAdapter;
     private int globalTimePosition;
 
+
+    //TicketsBuyAdapter
+    private ListView listViewBuyTickets;
+    private ArrayList<Ticket> listBuyTickets;
+    private BuyTicketListAdapter buyTicketListAdapter;
+
+    private ConstraintLayout clMain;
+    private ConstraintLayout clAgreement;
+    private ConstraintLayout clButtonNotAgree;
+
+    ArrayList<HallRowPlace> occupiedPlaces;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,42 +116,43 @@ public class MovieScheduleActivity extends AppCompatActivity {
 
             ArrayList<HallRowPlace> hallRowPlaces = new ArrayList<>();
 
-            String hallID = GenerateID();
+            String hallID = "502797301540546072-579375682";
 
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "1", "1"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "1", "2"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "1", "3"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "1", "4"));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "1", "1", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "1", "2", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "1", "3", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "1", "4", false));
 
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "2", "1"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "2", "2"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "2", "3"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "2", "4"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "2", "5"));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "2", "5", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "2", "6", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "2", "7", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "2", "8", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "2", "9", false));
 
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "3", "1"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "3", "2"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "3", "3"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "3", "4"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "3", "5"));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "3", "10", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "3", "11", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "3", "12", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "3", "13", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "3", "14", false));
 
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "1"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "2"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "3"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "4"));
-            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "5"));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "15", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "16", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "17", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "18", false));
+            hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "19", false));
 
             Hall hall = new Hall(HallDataBase.getKey(), hallID, "3", "imagePath",
                     hallRowPlaces);
+
 
             /*HallDataBase.push().setValue(hall).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
             }
-        });*/
+            });*/
 
-            Schedule schedule = new Schedule(ScheduleDataBase.getKey(), GenerateID(), "48227305-753321073-1091710138", "502797301540546072-579375682", "22-5-2023", "15:00", "450");
+            Schedule schedule = new Schedule(ScheduleDataBase.getKey(), GenerateID(), "48227305-753321073-1091710138", hall, "24-5-2023", "15:00", "450");
 
             /*ScheduleDataBase.push().setValue(schedule).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -180,6 +198,8 @@ public class MovieScheduleActivity extends AppCompatActivity {
             }
         });
 
+        Constants.selectedTickets = new ArrayList<>();
+
         ConstraintLayoutBuyUI = findViewById(R.id.ConstraintLayoutBuyUI);
         ConstraintLayoutTicketsView = findViewById(R.id.ConstraintLayoutTicketsView);
 
@@ -192,6 +212,16 @@ public class MovieScheduleActivity extends AppCompatActivity {
         movieTime = new ArrayList<>();
         rvTime = findViewById(R.id.recyclerViewScheduleTime);
         globalTimePosition = 0;
+
+        //Tickets
+        listViewBuyTickets = findViewById(R.id.lvBuyTickets);
+        listBuyTickets = new ArrayList<Ticket>();
+        buyTicketListAdapter = new BuyTicketListAdapter(MovieScheduleActivity.this, listBuyTickets);
+        listViewBuyTickets.setAdapter(buyTicketListAdapter);
+
+        clMain = findViewById(R.id.mainScheduleActivity);
+        clAgreement = findViewById(R.id.ConstraintLayoutAgreement);
+        //clButtonNotAgree = findViewById(R.id.buttonCancelAgree);
     }
 
 
@@ -217,7 +247,6 @@ public class MovieScheduleActivity extends AppCompatActivity {
         }
         globalDatePosition = 0;
         UpdateScheduleDateList();
-
     }
 
 
@@ -236,7 +265,7 @@ public class MovieScheduleActivity extends AppCompatActivity {
         if(movieTime.isEmpty()){
             scheduleRefreshLayout.setRefreshing(true);
         }
-        ValueEventListener mainGenreListener = new ValueEventListener() {
+        ValueEventListener mainTimeListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(movieTime.size() > 0){movieTime.clear();}
@@ -259,8 +288,10 @@ public class MovieScheduleActivity extends AppCompatActivity {
                                     "\nПроверьте интернет соединение",
                             Toast.LENGTH_SHORT).show();
                     scheduleRefreshLayout.setRefreshing(false);
+
                     HideBuyUI();
                 } else {
+
                     UpdateTicketListView();
                 }
                 globalTimePosition = 0;
@@ -277,8 +308,8 @@ public class MovieScheduleActivity extends AppCompatActivity {
             }
         };
 
-        ScheduleDataBase.removeEventListener(mainGenreListener);
-        ScheduleDataBase.addValueEventListener(mainGenreListener);
+        ScheduleDataBase.removeEventListener(mainTimeListener);
+        ScheduleDataBase.addValueEventListener(mainTimeListener);
         //--TimeEnd
         UpdateScheduleTimeList();
     }
@@ -358,14 +389,36 @@ public class MovieScheduleActivity extends AppCompatActivity {
 
     private void UpdateTicketListView(){
         Schedule selectedSchedule = movieTime.get(globalTimePosition);
+        Constants.selectedTickets.clear();
         assert selectedSchedule != null;
         if(movieTime.size() != 0){
             ShowBuyUI();
+            if(listBuyTickets.size() != 0) {listBuyTickets.clear();}
+            buyTicketListAdapter.notifyDataSetChanged();
+
+            for (HallRowPlace hallRowPlace : selectedSchedule.hall.hallRowPlaces) {
+                if(!hallRowPlace.isBusy){
+                    String hallID = movieTime.get(globalTimePosition).hall.hallID;
+                    HallRowPlace hallRowPlaceNew = new HallRowPlace("", "", hallID, hallRowPlace.row, hallRowPlace.place, false);
+                    Ticket ticketNew = new Ticket("", "", selectedSchedule.scheduleID,
+                            mAuth.getUid(), hallRowPlaceNew);
+                    ticketNew.setThisSchedule(movieTime.get(globalTimePosition));
+                    listBuyTickets.add(ticketNew);
+                    buyTicketListAdapter.notifyDataSetChanged();
+
+                    ViewGroup.LayoutParams params = listViewBuyTickets.getLayoutParams();
+                    params.height += 650;
+                    listViewBuyTickets.setLayoutParams(params);
+                    listViewBuyTickets.requestLayout();
+                }
+            }
+
         }
         else {
             HideBuyUI();
         }
     }
+
 
     //--DateRVAdapterStart
     class MovieDateAdapter extends RecyclerView.Adapter<MovieScheduleActivity.MovieDateAdapter.DateHolder> {
@@ -417,6 +470,15 @@ public class MovieScheduleActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         globalDatePosition=getAdapterPosition();
 
+                        listBuyTickets.clear();
+                        buyTicketListAdapter.notifyDataSetChanged();
+
+                        ViewGroup.LayoutParams params = listViewBuyTickets.getLayoutParams();
+                        params.height += 400;
+                        listViewBuyTickets.setLayoutParams(params);
+                        listViewBuyTickets.requestLayout();
+
+                        HideBuyUI();
                         UpdateScheduleDateList();
                         UpdateScheduleTimeFromDatabase();
                     }
@@ -471,6 +533,15 @@ public class MovieScheduleActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         globalTimePosition=getAdapterPosition();
 
+                        listBuyTickets.clear();
+                        buyTicketListAdapter.notifyDataSetChanged();
+
+                        ViewGroup.LayoutParams params = listViewBuyTickets.getLayoutParams();
+                        params.height = 0;
+                        listViewBuyTickets.setLayoutParams(params);
+                        listViewBuyTickets.requestLayout();
+
+                        HideBuyUI();
                         UpdateScheduleTimeList();
                         UpdateTicketListView();
                     }
@@ -481,11 +552,10 @@ public class MovieScheduleActivity extends AppCompatActivity {
     }
     //--TimeRVAdapterEnd
 
+
     public void cancelOnClick(View view) {
         finish();
     }
-
-
 
     //--HelpMethodsStart
     private String GenerateID(){
@@ -498,4 +568,90 @@ public class MovieScheduleActivity extends AppCompatActivity {
         return sinceMidnight + "" + rnd.nextInt() + "" + rnd.nextInt();
     }
     //--HelpMethodsEnd
+
+    public void OpenBuyTickets(View view){
+        if(Constants.selectedTickets.size() > 0){
+            clMain.setClickable(false);
+            clAgreement.setVisibility(View.VISIBLE);
+        }
+    }
+    Schedule selectedSchedule;
+    public void BuyTickets(View view){
+        selectedSchedule = movieTime.get(globalTimePosition);
+        boolean IsError = false;
+
+        for(HallRowPlace updatePlaces : selectedSchedule.hall.hallRowPlaces){
+            for(Ticket ticket: Constants.selectedTickets){
+                String place = ticket.ticketPlace.row;
+                String row = ticket.ticketPlace.place;
+                if(updatePlaces.place.equals(place) && updatePlaces.row.equals(row)){
+                   if(updatePlaces.isBusy){
+                       IsError = true;
+                   }
+                }
+            }
+        }
+
+        if(IsError) {
+            Toast.makeText(MovieScheduleActivity.this,
+                    "Выбранные места уже успели занять, выберите другие места." +
+                            "\nПроверьте интернет соединение",
+                    Toast.LENGTH_SHORT).show();
+            UpdateScheduleTimeFromDatabase();
+            return;
+        }
+
+        for(HallRowPlace updatePlaces : selectedSchedule.hall.hallRowPlaces){
+            for(Ticket ticket: Constants.selectedTickets){
+                String place = ticket.ticketPlace.place;
+                String row = ticket.ticketPlace.row;
+                if(updatePlaces.place.equals(place) && updatePlaces.row.equals(row)){
+                    updatePlaces.isBusy = true;
+                }
+            }
+        }
+
+
+        ScheduleDataBase.orderByChild("generatedScheduleID")
+                .equalTo(selectedSchedule.generatedScheduleID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ds : dataSnapshot.getChildren()){
+                            //Заполняем массив жанров
+                            String key = ds.getKey();
+                            Schedule schedule = ds.getValue(Schedule.class);
+                            assert schedule != null;
+                            ScheduleDataBase.child(key).child("hall").child("hallRowPlaces")
+                                    .setValue(selectedSchedule.hall.hallRowPlaces);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+        for (Ticket ticket: Constants.selectedTickets) {
+            ticket.ticketID = TicketDataBase.getKey();
+            ticket.generatedTicketID = GenerateID();
+            TicketDataBase.push().setValue(ticket).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+            });
+        }
+
+        finish();
+    }
+
+    public void CancelBuyTickets(View view){
+        clMain.setClickable(true);
+        clAgreement.setVisibility(View.GONE);
+    }
+
+
+
+
 }

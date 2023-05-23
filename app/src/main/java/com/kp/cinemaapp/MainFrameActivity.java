@@ -40,9 +40,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kp.cinemaapp.adapters.CinemaListAdapter;
+import com.kp.cinemaapp.adapters.TicketListAdapter;
 import com.kp.cinemaapp.model.Cinema;
 import com.kp.cinemaapp.model.Genre;
 import com.kp.cinemaapp.model.Movie;
+import com.kp.cinemaapp.model.Ticket;
 import com.kp.cinemaapp.model.User;
 import com.squareup.picasso.Picasso;
 
@@ -95,10 +97,18 @@ public class MainFrameActivity extends AppCompatActivity {
     private EditText textPasswordReg;
     private EditText textPasswordReg2;
 
+    private ConstraintLayout CLYesTicket;
+    private ConstraintLayout CLNoTicket;
+
     //Cinema
     private ListView listViewCinema;
     private ArrayList<Cinema> listCinema;
     private CinemaListAdapter cinemaAdapter;
+
+    //Cinema
+    private ListView listViewTicket;
+    private ArrayList<Ticket> listTicket;
+    private TicketListAdapter ticketAdapter;
 
     //Genre
     RecyclerView rvGenre;
@@ -203,7 +213,10 @@ public class MainFrameActivity extends AppCompatActivity {
         rvMovie = findViewById(R.id.RecyclerViewMovie);
 
         //Tickets
-
+        listViewTicket = findViewById(R.id.listViewUserTickets);
+        listTicket = new ArrayList<Ticket>();
+        ticketAdapter = new TicketListAdapter(MainFrameActivity.this, listTicket);
+        listViewTicket.setAdapter(ticketAdapter);
 
         //Refresh Layout
         mainRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.mainRefreshLayout);
@@ -239,6 +252,9 @@ public class MainFrameActivity extends AppCompatActivity {
                 updateProfile();
             }
         });
+
+        CLYesTicket = findViewById(R.id.HaveTicketsCL);
+        CLNoTicket = findViewById(R.id.NoTicketsCL);
 
     }
 
@@ -490,6 +506,43 @@ public class MainFrameActivity extends AppCompatActivity {
 
     public void updateTickets(){
 
+        if(listTicket.isEmpty()){
+            ticketsRefreshLayout.setRefreshing(true);
+        }
+        ValueEventListener ticketsListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(listTicket.size() > 0){listTicket.clear();}
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    //Заполняем массив кинотеатров
+                    Ticket ticket = ds.getValue(Ticket.class);
+                    assert ticket != null;
+                    if(ticket.userUID.equals(mAuth.getUid())){
+                        listTicket.add(ticket);
+                    }
+                }
+                ticketAdapter.notifyDataSetChanged();
+                ticketsRefreshLayout.setRefreshing(false);
+                if(listTicket.size() != 0){
+                    CLNoTicket.setVisibility(View.GONE);
+                    CLYesTicket.setVisibility(View.VISIBLE);
+                } else {
+                    CLNoTicket.setVisibility(View.VISIBLE);
+                    CLYesTicket.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainFrameActivity.this,
+                        "Проверьте интернет соединение!",
+                        Toast.LENGTH_SHORT).show();
+                ticketsRefreshLayout.setRefreshing(false);
+            }
+        };
+
+        TicketDataBase.removeEventListener(ticketsListener);
+        TicketDataBase.addValueEventListener(ticketsListener);
+        ticketAdapter.notifyDataSetChanged();
 
 
         ticketsRefreshLayout.setRefreshing(false);

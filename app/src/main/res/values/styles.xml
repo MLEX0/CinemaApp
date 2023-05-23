@@ -3,4 +3,8 @@
     <style name="BottomNavigationViewTextStyle">
         <item name="android:fontFamily">@font/corporateacondpro_rregular</item>
     </style>
+    <style name="TicketCheckBox">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/main</item>
+    </style>
 </resources>
