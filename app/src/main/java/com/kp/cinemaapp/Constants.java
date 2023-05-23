@@ -15,7 +15,8 @@ public class Constants {
     public final static String HALL_ROW_PLACE_KEY = "HallRowPlace";
     public final static String TICKET_KEY = "Ticket";
     public static Movie openMovie;
-
     public static ArrayList<Ticket> selectedTickets;
+
+    public static Ticket openTicket;
 
 }

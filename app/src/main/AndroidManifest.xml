@@ -36,6 +36,8 @@
         <activity android:name="com.kp.cinemaapp.SupportServiceActivity" />
         <activity android:name="com.kp.cinemaapp.ViewMovieActivity" />
         <activity android:name="com.kp.cinemaapp.MovieScheduleActivity" />
+        <activity android:name="com.kp.cinemaapp.ViewHallActivity" />
+        <activity android:name="com.kp.cinemaapp.ViewTicketActivity" />
 
     </application>
 

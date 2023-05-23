@@ -1,6 +1,7 @@
 package com.kp.cinemaapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -141,7 +142,8 @@ public class MovieScheduleActivity extends AppCompatActivity {
             hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "18", false));
             hallRowPlaces.add(new HallRowPlace(HallRowPlaceDataBase.getKey(), GenerateID(), hallID, "4", "19", false));
 
-            Hall hall = new Hall(HallDataBase.getKey(), hallID, "3", "imagePath",
+            Hall hall = new Hall(HallDataBase.getKey(), hallID, "3",
+                    "https://firebasestorage.googleapis.com/v0/b/cinemaapp-80774.appspot.com/o/HallImages%2FGroup%204.png?alt=media&token=791f1998-bc73-4167-912d-f9be6ed69cd7",
                     hallRowPlaces);
 
 
@@ -652,6 +654,12 @@ public class MovieScheduleActivity extends AppCompatActivity {
     }
 
 
+    public void onCLickViewHall(View view){
+        String imagePathHall = movieTime.get(globalTimePosition).hall.ImagePath;
+        Intent intent = new Intent(this, ViewHallActivity.class);
+        intent.putExtra("hall_image_path", imagePathHall);
+        startActivity(intent);
+    }
 
 
 }

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -217,6 +218,16 @@ public class MainFrameActivity extends AppCompatActivity {
         listTicket = new ArrayList<Ticket>();
         ticketAdapter = new TicketListAdapter(MainFrameActivity.this, listTicket);
         listViewTicket.setAdapter(ticketAdapter);
+        listViewTicket.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Constants.openTicket = new Ticket();
+                Constants.openTicket = listTicket.get(position);
+
+                Intent viewTicket = new Intent(MainFrameActivity.this, ViewTicketActivity.class);
+                startActivity(viewTicket);
+            }
+        });
 
         //Refresh Layout
         mainRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.mainRefreshLayout);
